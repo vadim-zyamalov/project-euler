@@ -1,4 +1,4 @@
-import Utils ( combinationsR )
+import Utils ( combinations )
 
 isPalyndrome :: Int -> Bool
 isPalyndrome n = n == revN n 0
@@ -11,7 +11,7 @@ isPalyndrome n = n == revN n 0
                 nacc = 10 * acc + d
 
 solve :: Int
-solve = maximum . filter isPalyndrome . map product . combinationsR 2 $ [999,998..100]
+solve = maximum . filter isPalyndrome . map product . combinations 2 $ [999,998..100]
 
 main :: IO()
 main = print solve

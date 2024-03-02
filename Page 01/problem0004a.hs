@@ -1,4 +1,4 @@
-import Utils ( combinationsR )
+import Utils ( combinationsR)
 
 isPalyndrome :: Int -> Bool
 isPalyndrome n = s == rs
@@ -7,7 +7,7 @@ isPalyndrome n = s == rs
         rs = reverse s
 
 solve :: Int
-solve = maximum . filter isPalyndrome . map product . combinationsR 2 $ [999,998..100]
+solve = maximum . filter isPalyndrome . map product . combinations 2 $ [999,998..100]
 
 main :: IO()
 main = print $ solve
