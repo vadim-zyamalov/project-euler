@@ -5,7 +5,11 @@ module Utils (
     combinations,
     combinationsR,
     permutations,
-    permutations'
+    permutations',
+    gcd',
+    lcm',
+    gcdL,
+    lcmL
     ) where
 
 enum :: [a] -> [(Int, a)]
@@ -39,3 +43,23 @@ permutations' n xs = concatMap (\(i, x) -> map (x :) (ps' i xs)) ixs
     where
         ixs = enum xs
         ps' i els = permutations' (n - 1) $ map snd $ filter (\(j, _) -> j /= i) ixs
+
+gcd' :: Integral a => a -> a -> a
+gcd' x 0 = x
+gcd' x y = gcd' ay (ax `mod` ay)
+    where
+        ay = abs y
+        ax = abs x
+
+gcdL :: Integral a => [a] -> a
+gcdL [x] = x
+gcdL (x:y:xs) = gcdL (gcd x y : xs)
+
+lcm' :: Integral a => a -> a -> a
+lcm' x 0 = x
+lcm' 0 x = x
+lcm' x y = abs (x * y) `div` gcd' x y
+
+lcmL :: Integral a => [a] -> a
+lcmL [x] = x
+lcmL (x:y:xs) = lcmL (lcm x y : xs)
