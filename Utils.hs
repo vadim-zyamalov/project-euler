@@ -9,7 +9,8 @@ module Utils (
     gcd',
     lcm',
     gcdL,
-    lcmL
+    lcmL,
+    numSplit
     ) where
 
 enum :: [a] -> [(Int, a)]
@@ -52,7 +53,7 @@ gcd' x y = gcd' ay (ax `mod` ay)
         ax = abs x
 
 gcdL :: Integral a => [a] -> a
-gcdL [x] = x
+gcdL [x]      = x
 gcdL (x:y:xs) = gcdL (gcd x y : xs)
 
 lcm' :: Integral a => a -> a -> a
@@ -61,5 +62,9 @@ lcm' 0 x = x
 lcm' x y = abs (x * y) `div` gcd' x y
 
 lcmL :: Integral a => [a] -> a
-lcmL [x] = x
+lcmL [x]      = x
 lcmL (x:y:xs) = lcmL (lcm x y : xs)
+
+numSplit :: Integral a => a -> [a]
+numSplit 0 = []
+numSplit n = numSplit (n `div` 10) ++ [n `mod` 10]
