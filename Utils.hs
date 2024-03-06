@@ -1,5 +1,6 @@
 module Utils (
     enum,
+    primesTo,
     primes,
     fib,
     combinations,
@@ -13,13 +14,21 @@ module Utils (
     numSplit
     ) where
 
+import Data.List.Ordered (minus)
+
 enum :: [a] -> [(Int, a)]
 enum = zip [0..]
 
-primes :: [Int]
-primes = primes' [2..]
+primesTo :: Int -> [Int]
+primesTo n = 2 : primes' [3, 5 .. n]
     where
-        primes' (x:xs) = x : primes' (filter ((/=0) . flip mod x) xs)
+        primes' [] = []
+        primes' (x:xs) = x : primes' (xs `minus` [x*x, x*x + 2 * x .. n])
+
+primes :: [Int]
+primes = 2 : primes' [3, 5 ..]
+    where
+        primes' (x:xs) = x : primes' (xs `minus` [x*x, x*x + 2*x ..])
 
 fib :: [Int]
 fib = 1 : 1 : zipWith (+) fib (tail fib)
@@ -46,14 +55,15 @@ permutations' n xs = concatMap (\(i, x) -> map (x :) (ps' i xs)) ixs
         ps' i els = permutations' (n - 1) $ map snd $ filter (\(j, _) -> j /= i) ixs
 
 gcd' :: Integral a => a -> a -> a
-gcd' x 0 = x
+gcd' 0 y = ay
+gcd' x 0 = ax
 gcd' x y = gcd' ay (ax `mod` ay)
     where
         ay = abs y
         ax = abs x
 
 gcdL :: Integral a => [a] -> a
-gcdL [x]      = x
+gcdL [x]      = abs x
 gcdL (x:y:xs) = gcdL (gcd x y : xs)
 
 lcm' :: Integral a => a -> a -> a
