@@ -1,4 +1,5 @@
-from math import log
+from math import log, sqrt
+from collections import defaultdict
 
 
 def primesTo(num):
@@ -21,6 +22,30 @@ def primesTo(num):
 
 def primeLim(n: int) -> int:
     return int(n * log(n) + n * log(log(n)))
+
+
+def factor(num: int) -> defaultdict:
+    assert num > 1, "1 is not a prime number"
+    assert isinstance(num, int), "num should be integer"
+
+    factors = defaultdict(int)
+
+    _num = num
+    primes = primesTo(int(sqrt(num)))
+
+    idx = 0
+    while idx < len(primes):
+        p = primes[idx]
+        if _num % p == 0:
+            factors[p] += 1
+            _num //= p
+        else:
+            idx += 1
+
+    if len(factors) == 0:
+        factors[num] = 1
+
+    return factors
 
 
 def gcd(x: int, y: int) -> int:
@@ -53,3 +78,11 @@ def lcmL(xs: list[int]) -> int:
         x = lcm(x, y)
 
     return x
+
+
+def numToList(num: int) -> list[int]:
+    res = []
+    while num:
+        num, q = divmod(num, 10)
+        res += [q]
+    return res[::-1]
