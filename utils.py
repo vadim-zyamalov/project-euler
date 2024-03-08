@@ -1,4 +1,5 @@
-from math import log, sqrt
+from functools import cache
+from math import floor, log, sqrt
 from collections import defaultdict
 
 
@@ -31,16 +32,14 @@ def factor(num: int) -> defaultdict:
     factors = defaultdict(int)
 
     _num = num
-    primes = primesTo(int(sqrt(num)))
+    primes = primesTo(num)
 
-    idx = 0
-    while idx < len(primes):
-        p = primes[idx]
-        if _num % p == 0:
+    for p in primes:
+        if p > _num:
+            break
+        while _num % p == 0:
             factors[p] += 1
             _num //= p
-        else:
-            idx += 1
 
     if len(factors) == 0:
         factors[num] = 1
@@ -86,3 +85,13 @@ def numToList(num: int) -> list[int]:
         num, q = divmod(num, 10)
         res += [q]
     return res[::-1]
+
+
+@cache
+def fact(n: int) -> int:
+    assert n >= 0
+    assert isinstance(n, int)
+
+    if n == 0:
+        return 1
+    return n * fact(n - 1)
