@@ -1,5 +1,5 @@
 from functools import cache
-from math import floor, log, sqrt
+from math import log
 from collections import defaultdict
 
 
@@ -32,17 +32,21 @@ def factor(num: int) -> defaultdict:
     factors = defaultdict(int)
 
     _num = num
-    primes = primesTo(num)
 
-    for p in primes:
-        if p > _num:
-            break
+    # Factor 2
+    while _num % 2 == 0:
+        factors[2] += 1
+        _num //= 2
+
+    p = 3
+    while p * p <= _num:
         while _num % p == 0:
             factors[p] += 1
             _num //= p
+        p += 2
 
-    if len(factors) == 0:
-        factors[num] = 1
+    if _num > 1:
+        factors[_num] += 1
 
     return factors
 
@@ -95,3 +99,23 @@ def fact(n: int) -> int:
     if n == 0:
         return 1
     return n * fact(n - 1)
+
+
+@cache
+def fib1(n: int) -> int:
+    assert isinstance(n, int)
+    assert n > 0
+
+    if n < 3:
+        return 1
+    return fib1(n - 1) + fib1(n - 2)
+
+
+@cache
+def fib(n: int) -> int:
+    assert isinstance(n, int)
+    assert n >= 0
+
+    if n < 2:
+        return 1
+    return fib(n - 1) + fib(n - 2)
