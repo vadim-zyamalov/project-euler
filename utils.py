@@ -3,6 +3,21 @@ from math import log
 from collections import defaultdict
 
 
+@cache
+def isPrime(num: int) -> int:
+    assert isinstance(num, int)
+    if num < 0:
+        return False
+    if num == 1:
+        return False
+    if num == 2:
+        return True
+    for p in range(3, int(num ** (0.5)) + 1, 2):
+        if num % p == 0:
+            return False
+    return True
+
+
 def primesTo(num):
     result = [2]
 
@@ -26,8 +41,8 @@ def primeLim(n: int) -> int:
 
 
 def factor(num: int) -> defaultdict:
-    assert num > 1, "1 is not a prime number"
     assert isinstance(num, int), "num should be integer"
+    assert num > 1, "1 is not a prime number"
 
     factors = defaultdict(int)
 
