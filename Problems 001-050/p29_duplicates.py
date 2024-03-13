@@ -50,4 +50,4 @@ def solve(limit: int) -> int:
     return (limit - 1) * (limit - 1) - doubles
 
 
-print(solve(pow(10, 10)))
+print(solve(pow(10, 3)))

@@ -3,25 +3,30 @@ from math import log
 from math import lcm
 
 
-N = pow(10, 2)
+N = pow(10, 3)
 
 
 def maxpower(a: int, n: int) -> int:
-    return int(log(n) / log(a))
+    res = int(log(n) / log(a))
+    # Данная часть нужна из-за того, что десятичные дроби
+    # страдают от двоичного представления.
+    if pow(a, res + 1) <= n:
+        res += 1
+    if pow(a, res) > n:
+        res -= 1
+    return res
 
 
-def recurse(step, index, sign, lower_b, upper_b, queue, n):
+def recurse(step, index, sign, lower_b, upper_b, queue):
     if step > upper_b:
         return 0
     res = sign * (upper_b // step - (lower_b - 1) // step)
     for i in range(index + 1, len(queue)):
-        res += recurse(
-            lcm(step, queue[i]), i, -sign, lower_b, upper_b, queue, n
-        )
+        res += recurse(lcm(step, queue[i]), i, -sign, lower_b, upper_b, queue)
     return res
 
 
-def deleteDuplicates(lower_b, upper_b, base_p, cross_p, n, check):
+def deleteDuplicates(lower_b, upper_b, base_p, cross_p, check):
     # Это --- недоступная для меня магия.
     # Не могу понять, почему именно так.
     # Понимаю только, что это число попаданий степеней, кратных cross_b
@@ -35,7 +40,7 @@ def deleteDuplicates(lower_b, upper_b, base_p, cross_p, n, check):
 
     # Удаляем пересечения с неотфильтрованными степенями с base_p по cross_p
     for i in range(len(queue)):
-        res -= recurse(lcm(cross_p, queue[i]), i, 1, lower_b, upper_b, queue, n)
+        res -= recurse(lcm(cross_p, queue[i]), i, 1, lower_b, upper_b, queue)
 
     return res
 
@@ -70,7 +75,7 @@ def countPowers(limit: int) -> list[int]:
         for cross_p in range(base_p, maxP + 1):
             if check & (1 << cross_p):
                 counts[cross_p] += deleteDuplicates(
-                    lower_b, upper_b, base_p, cross_p, limit, check
+                    lower_b, upper_b, base_p, cross_p, check
                 )
 
     # Сложный для осознаня кусок
@@ -95,7 +100,7 @@ used = 0
 # Тут будет ответ
 res = 0
 
-# Тут учитываются степени сверх корня
+# Тут учитываются степени сверх корня чисел до корня
 # для последующего вычитания
 extra_p = 0
 
@@ -112,8 +117,11 @@ for base_num in range(2, rtN + 1):
                 extra_p += c - counted_p + 1
                 break
 
-# Степени чисел сверх корня
+# Степени чисел сверх корня N
 res += (N - rtN) * (N - 1)
+
+# Но мы часть этих чисел уже посчитали в цикле
+# Поэтому мы считаем их число и умножаем на (N-1), чтобы вычесть все их степени
 res -= extra_p * (N - 1)
 
 print(N, res)
