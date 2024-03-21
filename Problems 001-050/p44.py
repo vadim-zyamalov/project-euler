@@ -10,13 +10,13 @@ def isPnum(p: int) -> bool:
 def solve():
     pnums = [pnum(i) for i in range(100_01)]
 
-    for n in range(1, 100_01):
+    n = 1
+    while True:
         for m in range(1, n):
             s, d = pnums[n] + pnums[m], pnums[n] - pnums[m]
             if isPnum(s) and isPnum(d):
                 return d
-
-    return -1
+        n += 1
 
 
 print(solve())
