@@ -17,7 +17,7 @@ def solve(grid: list[list[int]]) -> int:
     return max(check(r, c, grid) for r in range(nr - 3) for c in range(nc - 3))
 
 
-with open("p11.txt", "r") as f:
+with open("0011_grid.txt", "r") as f:
     GRID = [
         list(map(int, line.strip().split()))
         for line in f.read().strip().split("\n")

@@ -24,6 +24,6 @@ def listToNum(dlist: list[int]) -> int:
     return res
 
 
-with open("p13.txt", "r") as f:
+with open("0013_numbers.txt", "r") as f:
     nums = f.read().strip().split("\n")
     print(listToNum(sumOnebyOne(nums)[:10]))

@@ -1,4 +1,4 @@
-from utils import primesTo
+from utils import primesTo, isPrime
 from math import log10
 from functools import cache
 from time import time
@@ -28,22 +28,6 @@ def isTractable(num: int) -> bool:
 def solve():
     res = [p for p in PRIMES[8:] if isTractable(p)]
     return res
-
-
-@cache
-def isPrime(num: int) -> bool:
-    assert isinstance(num, int)
-    assert num >= 0
-    if num < 2:
-        return False
-    if num == 2:
-        return True
-    i = 3
-    while i * i <= num:
-        if num % i == 0:
-            return False
-        i += 2
-    return True
 
 
 def rightTractable() -> list[int]:

@@ -4,7 +4,7 @@ from collections import defaultdict
 
 
 @cache
-def isPrime(num: int) -> int:
+def isPrime(num: int) -> bool:
     assert isinstance(num, int)
     if num < 0:
         return False

@@ -11,6 +11,6 @@ def solve(nums):
     return res // 10 ** (digitsNum(res) - 10)
 
 
-with open("p13.txt", "r") as f:
+with open("0013_numbers.txt", "r") as f:
     nums = list(map(int, f.read().strip().split("\n")))
     print(solve(nums))

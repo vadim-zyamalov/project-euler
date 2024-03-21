@@ -11,7 +11,9 @@ def maxTotal(pyramid: list[list[int]]) -> int:
     return pyramid[0][0]
 
 
-with open("p18.txt", "r") as f:
-    pyr = list(list(map(int, line.split())) for line in f.read().strip().split("\n"))
+with open("0018_pyramid.txt", "r") as f:
+    pyr = list(
+        list(map(int, line.split())) for line in f.read().strip().split("\n")
+    )
 
     print(maxTotal(pyr))
