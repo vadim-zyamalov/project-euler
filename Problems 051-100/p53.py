@@ -22,8 +22,7 @@ def count_forum(fin: int, lim: int) -> int:
     res = 0
     binom = [0] * (fin + 1)
     binom[0] = 1
-    binom[1] = 1
-    for n in range(2, fin + 1):
+    for n in range(1, fin + 1):
         for j in range(n, 0, -1):
             binom[j] += binom[j - 1]
             if binom[j] > lim:
